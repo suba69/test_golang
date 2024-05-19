@@ -3,15 +3,18 @@ package handler
 import (
 	"encoding/json"
 	"net/http"
-	"test_golang/db"
-	_ "test_golang/entity"
 )
 
-func SubscribeHandler(database *db.Database) http.HandlerFunc {
+type SubscriptionService interface {
+	CheckEmailExists(email string) (bool, error)
+	InsertSubscribedUser(email string) error
+}
+
+func SubscribeHandler(subscriptionService SubscriptionService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		email := r.FormValue("email")
 
-		exists, err := database.CheckEmailExists(email)
+		exists, err := subscriptionService.CheckEmailExists(email)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -21,7 +24,7 @@ func SubscribeHandler(database *db.Database) http.HandlerFunc {
 			return
 		}
 
-		err = database.InsertSubscribedUser(email)
+		err = subscriptionService.InsertSubscribedUser(email)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

@@ -3,7 +3,7 @@ package entity
 import "time"
 
 type exchangeRate struct {
-	iD           int
+	id           int
 	exchangeRate float64
 	updatedAt    time.Time
 }

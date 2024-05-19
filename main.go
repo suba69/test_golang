@@ -1,12 +1,11 @@
 package main
 
 import (
-	_ "github.com/mailgun/mailgun-go/v4"
 	"log"
 	"net/http"
-	"test_golang/db"
-	"test_golang/db/migrations"
 	"test_golang/handler"
+	"test_golang/internal/db"
+	"test_golang/internal/db/migrations"
 )
 
 func main() {
@@ -19,11 +18,12 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// Виправлено ім'я функції та аргументи
 	if err := migrations.CheckMigrationsStatus(dbURL); err != nil {
 		log.Fatal(err)
 	}
 
-	http.HandleFunc("/exchange-rate", handler.GetCurrentExchangeRate(database))
+	http.HandleFunc("/exchange-rate", handler.GetCurrentExchangeRate(database, &handler.ExchangeRateAPIProvider{}))
 	http.HandleFunc("/subscribe", handler.SubscribeHandler(database))
 
 	log.Println("Server is running on port 8080...")
