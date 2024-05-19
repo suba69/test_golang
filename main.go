@@ -5,12 +5,23 @@ import (
 	"log"
 	"net/http"
 	"test_golang/db"
+	"test_golang/db/migrations"
 	"test_golang/handler"
 )
 
 func main() {
 	database := db.NewDB()
 	defer database.Close()
+
+	dbURL := "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
+
+	if err := migrations.ApplyMigrations(dbURL); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := migrations.CheckMigrationsStatus(dbURL); err != nil {
+		log.Fatal(err)
+	}
 
 	http.HandleFunc("/exchange-rate", handler.GetCurrentExchangeRate(database))
 	http.HandleFunc("/subscribe", handler.SubscribeHandler(database))

@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS exchange_rate;
+
+DROP TABLE IF EXISTS users;
