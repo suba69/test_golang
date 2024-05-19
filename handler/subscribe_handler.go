@@ -33,8 +33,7 @@ func SubscribeHandler(subscriptionService SubscriptionService) http.HandlerFunc 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(map[string]interface{}{
-			"message": "Email subscribed successfully",
-			"email":   email,
+			"message": "E-mail додано",
 		})
 	}
 }
