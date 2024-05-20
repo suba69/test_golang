@@ -2,7 +2,7 @@ package entity
 
 import "time"
 
-type user struct {
+type subscribedUser struct {
 	id              int
 	email           string
 	lastEmailSentAt time.Time

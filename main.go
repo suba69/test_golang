@@ -18,7 +18,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// Виправлено ім'я функції та аргументи
 	if err := migrations.CheckMigrationsStatus(dbURL); err != nil {
 		log.Fatal(err)
 	}
