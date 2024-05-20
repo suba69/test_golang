@@ -1,6 +1,6 @@
 module test_golang
 
-go 1.20
+go 1.22
 
 require (
 	github.com/golang-migrate/migrate/v4 v4.17.1
