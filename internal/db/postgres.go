@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	_ "github.com/lib/pq"
 	"log"
+	"os"
 	"time"
 )
 
@@ -12,7 +13,7 @@ type Database struct {
 }
 
 func NewDB() *Database {
-	const connStr = "user=postgres password=postgres dbname=postgres sslmode=disable"
+	connStr := os.Getenv("DB_URL")
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal(err)
