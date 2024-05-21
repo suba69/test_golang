@@ -32,7 +32,7 @@ func (e *ExchangeRateAPIProvider) GetExchangeRate() (float64, error) {
 	return exchangeRate, nil
 }
 
-func GetCurrentExchangeRate(database *db.Database, exchangeRateProvider ExchangeRateProvider) http.HandlerFunc {
+func GetCurrentExchangeRate(database db.DatabaseInterface, exchangeRateProvider ExchangeRateProvider) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		exchangeRate, err := exchangeRateProvider.GetExchangeRate()
 		if err != nil {
