@@ -12,6 +12,10 @@ type Database struct {
 	*sql.DB
 }
 
+type DatabaseInterface interface {
+	InsertExchangeRate(rate float64) error
+}
+
 func NewDB() *Database {
 	connStr := os.Getenv("DB_URL")
 	db, err := sql.Open("postgres", connStr)
@@ -27,13 +31,9 @@ func (database *Database) Close() {
 	}
 }
 
-func (database *Database) InsertExchangeRate(exchangeRate float64) error {
-	query := `INSERT INTO exchange_rates (exchange_rate, updated_at) VALUES ($1, $2)`
-	_, err := database.Exec(query, exchangeRate, time.Now())
-	if err != nil {
-		return err
-	}
-	return nil
+func (database *Database) InsertExchangeRate(rate float64) error {
+	_, err := database.Exec("INSERT INTO exchange_rates (rate) VALUES ($1)", rate)
+	return err
 }
 
 func (database *Database) CheckEmailExists(email string) (bool, error) {
